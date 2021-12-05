@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  A Look at COVID-19 Through the lens of Reddit | CSCD25
+</title>
+  <link rel="canonical" href="/a-look-at-covid-19-through-the-lens-of-reddit.html">
+
+
+  <link rel="stylesheet" href="/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="/theme/css/theme.css">
+
+  
+  <meta name="description" content="A data analysis of reddit data with the objective of extracting information relating to covid">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="/">CSCD25</a></h1>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  A Look at COVID-19 Through the lens of Reddit
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2021-12-04T00:00:00-05:00">
+          <i class="fas fa-clock"></i>
+          Sat 04 December 2021
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="/category/misc.html">misc</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-user"></i>
+              <a href="/author/michael-do.html">Michael Do</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>COVID-19 has dramatically changed the world in many ways, but how has it affected the use of social media platforms? The goal of this investigation is to see how COVID-19 has changed the way we interact with each other and if we can use these interactions to make predictions on vaccine preferences. Identifying posting pattern changes between eras could suggest a change in culture and this could have numerous use cases. Particularly for social media censorship by identifying where fake news regarding vaccination information begins.</p>
+<p>For this investigation we define the following terms as follows:</p>
+<dl class="docutils">
+<dt>polarity</dt>
+<dd>A rating from [-1,1] that describes the sentiment of a text. A value below 0 suggests a negative text and a value above 0 suggests a positive text. Finaly values close to 0 suggest a neutral sentiment from the text.</dd>
+<dt>pro-vaccine</dt>
+<dd>a user is pro-vaccine if they have ever taken a vaccine and/or support others taking the vaccine</dd>
+<dt>anti-vaccine</dt>
+<dd>a user who is hesistant of taking the covid vaccine, regardless of reason.</dd>
+</dl>
+</div>
+<div class="section" id="research-questions">
+<h2>Research Questions</h2>
+<p>This investigation will aim to answer the following questions:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>How has subreddit behavior changed since covid has began?</dt>
+<dd><ul class="first last">
+<li>How has the popularity of subreddits changed ?</li>
+<li>How has the polarity of reddit changed?</li>
+<li>Can we predict a subreddits polarity during covid?</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Can we predict a users vaccination preferences from the subreddits they post in?</li>
+</ul>
+</div>
+<div class="section" id="subreddit-behaviour">
+<h2>Subreddit Behaviour</h2>
+<p>For this section, we are concerned with the set of subreddits that existed before covid. We are not concerned with subreddits that have formed as a response to covid, instead we look at how subreddit usage has changed over time since covid has began.</p>
+<p>To answer this question, our data is partitioned into three sections.</p>
+<ol class="arabic simple">
+<li>pre-covid; Start of dataset to March 2020</li>
+<li>Transitional period <strong>(NOT USING)</strong>; March 2020 to May 2020</li>
+<li>in-covid; June 2020 to end set</li>
+</ol>
+<div class="section" id="popularity">
+<h3>Popularity</h3>
+<p>Covid has changed the world greatly. Is it possible that there has been a change in the way that reddit is being used? What subreddits are the most popular before covid and have they changed?</p>
+<p>In this section, we sum all activity for a subreddit for each week. I then plot the activity for each subreddit over time. Since my pre-covid and in-covid data sets do not start at the same time or even the same month, I normalize the time by creating a new week index starting at 0 for both data sets. This is sufficient as we are not concerned with any specific time periods, just a change in behavior over the two periods.</p>
+<p>In the interest of time, I've only generated plots for the top 50 most popular subreddits pre-covid. Not every subreddit has an interesting change, however I will go through several interesting subreddits in this section. The rest of the plots will be at the appendix.</p>
+<div class="section" id="anime">
+<h4>Anime</h4>
+<p>A slight increase in popularity at the start of covid that gradually moves to a large increase after the 30th week in covid. Could it be, people are watching more anime due to lockdowns and not being able to go out?</p>
+<img alt="anime" src="/images/popularity/anime_popularity.png" />
+</div>
+<div class="section" id="askouija">
+<h4>AskOuija</h4>
+<p>This subreddit is similar to AskReddit where a prompt is given at the start of a thread and users reply with one character at a time. This trend is interesting, as the subreddit's popularity is on a decline from pre-covid times but still remains fairly consistent.</p>
+<p>But shortly after the start of covid this popularity has dropped to 25% of its precovid popularity (4000 down to 1000). Is this sudden sharp drop due to covid or was the subreddit on the decline to begin with? Perhaps this style of posting was only fun and possible if users were in the same room together.</p>
+<img alt="ouija" src="/images/popularity/AskOuija_popularity.png" />
+</div>
+<div class="section" id="sports">
+<h4>Sports</h4>
+<p>Sport subreddits appear unaffected. They have a similar shape but only shifted (because our dates aren't aligned) maybe to match playoff and regular season times. This is surprising, as I'd expect many sports to be played less due to not having people to play with in lock down. Personally for me, I used to watch boxing alot and followed the boxing subreddit religiously. However with the low amount of fights I've stopped following the subreddit. I'd expect other sports to follow a similar trend but they are mostly unaffected.</p>
+<p>The MMA popularity graph is not what I expected as well. The consistent oscilation can be attributed to fights. Subreddit is more popular at the end of each fight or right before it because of discussion. There are fights all year so a consistent oscilation is expected. But how can there be such popularity during the in-covid era? I'd expect a  lot less fights due to covid. There's probably something I don't understand for this domain.</p>
+<img alt="baseball" src="/images/popularity/baseball_popularity.png" />
+<img alt="fantasyfootball_popularity" src="/images/popularity/fantasyfootball_popularity.png" />
+<img alt="hockey_popularity" src="/images/popularity/hockey_popularity.png" />
+<img alt="MMA_popularity" src="/images/popularity/MMA_popularity.png" />
+</div>
+<div class="section" id="relationship-advice">
+<h4>Relationship Advice</h4>
+<p>A large increase in traffic during covid. Are people having relationship issues due to the stresses of covid and perhaps having to spend time apart? Probably.</p>
+<p>But what are those 2 big dips in the in-covid data set? I'm not sure myself since the data set provided is randomly sampled.</p>
+<img alt="relationship_advice_popularity.png" src="/images/popularity/relationship_advice_popularity.png" />
+</div>
+<div class="section" id="pc-master-race">
+<h4>PC Master Race</h4>
+<p>A subreddit for computer elitist. Are people buying and investing in better computers because they expect to be home more? Maybe they're not able to invite friends over for local co op so console's are pointless. The only way to connect with friends and games is with a strong computer? Maybe</p>
+<img alt="pcmasterrace_popularity.png" src="/images/popularity/pcmasterrace_popularity.png" />
+</div>
+<div class="section" id="news">
+<h4>News</h4>
+<p>A lot more people reading and comment on news posts because of looking for covid information? I know I looked at this subreddit often at hopes of information about vaccines.</p>
+<p>The public freakout subreddit is interesting. It's a subreddit for people : &quot;freaking out, melting down..&quot;. I'd expect more riots and protests during covid.</p>
+<img alt="news_popularity.png" src="/images/popularity/news_popularity.png" />
+<img alt="PublicFreakout_popularity.png" src="/images/popularity/PublicFreakout_popularity.png" />
+</div>
+</div>
+<div class="section" id="positivity-polarity">
+<h3>Positivity/Polarity</h3>
+<p>Have subreddits become more or less positive after the start of covid? I follow similar steps to the last section regarding popularity. However instead of aggregrating for a weekly count of polarity I look at the average polarity on a subreddit for a week. I plotted the trend in the exact same way as the previous section.</p>
+<div class="section" id="similar-graphs">
+<h4>Similar Graphs</h4>
+<p>The shape of these graphs change over time, but they share the exact same shape pre and in covid. Surprisingly, even when the values change, they don't change by very much. Could it be these topics are just resistent to change in sentiment? I don't think so because even world news follows a very similar looking graph between era's</p>
+<img alt="leagueoflegends_polarity.png" src="/images/polarity/leagueoflegends_polarity.png" />
+<img alt="PublicFreakout_popularity.png" src="/images/polarity/movies_polarity.png" />
+<img alt="NoStupidQuestions_polarity.png" src="/images/polarity/NoStupidQuestions_polarity.png" />
+<img alt="worldnews_polarity.png" src="/images/polarity/worldnews_polarity.png" />
+</div>
+<div class="section" id="different-graphs">
+<h4>Different Graphs</h4>
+<p>Perhaps these changes are due to a change in population for the subreddit. However it's unlikely that these changes in polarity are significant. Although the graphs do not look similar, they do not differ by very much if we recall that polarity is a rating from [-1,1]</p>
+<img alt="funny_polarity.png" src="/images/polarity/funny_polarity.png" />
+<img alt="Market76_polarity.png" src="/images/polarity/Market76_polarity.png" />
+<img alt="Market76_polarity.png" src="/images/polarity/PewdiepieSubmissions_polarity.png" />
+<img alt="FortNiteBR_polarity.png" src="/images/polarity/FortNiteBR_polarity.png" />
+</div>
+</div>
+<div class="section" id="polarity-prediction">
+<h3>Polarity Prediction</h3>
+<p>Perhaps, we can use the previously found data to predict a subreddits polarity change. In this section I use a linear regression model to predict a subreddits in-covid average polarity for the year. Here I use all subreddits that exist in pre and in covid instead of the top 50 subreddits since I'm not bounded by explaining plots.</p>
+<p>For parameters I use:</p>
+<ul class="simple">
+<li>subreddit average popularity pre-covid</li>
+<li>subreddit average popularity in-covid</li>
+<li>subreddit average polarity pre-covid</li>
+</ul>
+<p>In this section, I did not have any hyper parameters so I trained one model and evaluated it's performance.</p>
+<p>First I created the training and test set</p>
+<div class="highlight"><pre><span></span>training_set, test_set = train_test_split(df, test_size=0.2) # df is the dataset of  subreddit data computed in previous sections
+</pre></div>
+<p>Then I train the model and test it's prediction</p>
+<div class="highlight"><pre><span></span>y1 = training_set[&quot;in-polarity&quot;]
+y2 = test_set[&quot;in-polarity&quot;]
+
+reg = reg.fit(X_train, y1)
+
+y1_pred = reg.predict(X_train)
+y2_pred = reg.predict(X_test)
+</pre></div>
+<p>Then I evaluate the performance with mean squared error</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;training mean squared error: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1_pred</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test mean squared error: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">y2_pred</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">training</span> <span class="n">mean</span> <span class="n">squared</span> <span class="n">error</span><span class="p">:</span> <span class="mf">0.0019934870527302797</span>
+<span class="n">test</span> <span class="n">mean</span> <span class="n">squared</span> <span class="n">error</span><span class="p">:</span> <span class="mf">0.0018019990485130127</span>
+</pre></div>
+<p>The error seem pretty low. Does that mean our model performed well? Not quite, recall that the values for the polarity are from [-1, 1] and that the changes of polarity are often quite small. Let's get the square root of the error to see how off our model was on average.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.0018019990485130127</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="mf">0.04244995934642356</span>
+</pre></div>
+<p>Our model is about 0.04 off from the polarity. Seems decent but just for fun less compare a naive model. Let's compare the performance of our model and a model that always predicts the original pre-covid polarity value.</p>
+<div class="highlight"><pre><span></span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">test_set</span><span class="p">[</span><span class="s2">&quot;pre-polarity&quot;</span><span class="p">])</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="mf">0.0018384296261688663</span> <span class="c1">#vs 0.0018019990485130127</span>
+</pre></div>
+<p>Our model does perform better than this naive guess, but not by very much. Why is this? If we look at the distribution of the polarity delta's (absolute value) most of the time polarity barely changes and if it does, its by less than 0.1.</p>
+<img alt="polarity_delta_boxplot_outliers.png" src="/images/polarity/polarity_delta_boxplot_outliers.png" />
+<p>Additionally this boxplot show there are alot of outliers. Would our model performed better if we removed some of the outliers?</p>
+<div class="highlight"><pre><span></span><span class="n">q4</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;polarity delta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;polarity delta&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">q4</span><span class="p">]</span>
+</pre></div>
+<p>Then we train a new model with the same previous code. I will leave the code out for this section because it's the same.</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;training mean squared error: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1_pred</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test mean squared error: </span><span class="si">{</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">y2_pred</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">training</span> <span class="n">mean</span> <span class="n">squared</span> <span class="n">error</span><span class="p">:</span> <span class="mf">0.0008328184977971535</span>
+<span class="n">test</span> <span class="n">mean</span> <span class="n">squared</span> <span class="n">error</span><span class="p">:</span> <span class="mf">0.00090147170529216</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.00090147170529216</span><span class="p">)</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="mf">0.030024518402335117</span>
+</pre></div>
+<p>The model performed better. How does it compare to the naive model?</p>
+<div class="highlight"><pre><span></span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y2</span><span class="p">,</span> <span class="n">test_set</span><span class="p">[</span><span class="s2">&quot;pre-polarity&quot;</span><span class="p">])</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="mf">0.0009361337313014792</span> <span class="c1">#vs 0.00090147170529216</span>
+</pre></div>
+<p>Again, it performed a bit better.</p>
+</div>
+<div class="section" id="conclusion">
+<h3>Conclusion</h3>
+<p>The popularity of subreddits have definitely changed throughout covid. Some of these can be attributed to covid, but some results are not easily explained. It also appears that some subreddits are resistent to change from the pandemic.</p>
+<p>For the polarity, we found that most subreddits don't by very much before and after covid. This was surprising as we would expect a change in polarity due to the despair and confusion brought by the pandemic. However, most subreddits appear to be an enclosed space where people focus on a topic and often do not have the pandemic alter the discussion.</p>
+<p>Another interesting discovery is that most subreddits are generally neutral in discussion. Again this is likely because of the way that subreddits operate.</p>
+<img alt="polarity_boxplot.png" src="/images/polarity/polarity_boxplot.png" />
+<p>Finally, our model was able to predict the polarity of subreddits in covid with great success. However it only performed slightly better than the naive model. While the model was successful, our results show that there is little reason to use it with the way that reddit is used.</p>
+</div>
+</div>
+<div class="section" id="vaccination-preferences">
+<h2>Vaccination Preferences</h2>
+<p>Here we attempt to use subreddit posting habits to predict a users vaccination opinions. A user's vaccination preference is not public so the labels were created manually by inspecting comments mentioning vaccines. Comments mentioning that they have been vaccinated or telling others to vaccinated had the user labeled as &quot;pro-vaccine&quot;. If the user mentioned the dangers of vaccines or fears of vaccines then they were listed as &quot;anti-vacine&quot;.</p>
+<p>Next for all labeled users I reviewed what subreddits they posted in and I created a author-subreddit matric. The value at the element represented the number of posts for an author on some subreddit. There were 500+ subreddits, so we have very high dimensionality data and a very sparse matrix. To simplify things I apply PCA to lower the amount of parameters.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">reduced_subreddit_matrix</span> <span class="o">=</span> <span class="n">author_subreddit_activity</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
+<span class="n">pca_embedding</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">reduced_subreddit_matrix</span><span class="p">)</span>
+<span class="n">pca_embedding</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca_embedding</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">reduced_subreddit_matrix</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+<p>These are the subreddits with the highest weight from the 5 components with highest variance.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">print_subreddit_from_component</span><span class="p">(</span><span class="n">i</span> <span class="p">,</span><span class="n">d</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Component: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">  *****&quot;</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>  <span class="c1"># list of tuples (column_name, coefficient)</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">l</span><span class="p">[:</span><span class="mi">7</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&gt;20s</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">c</span><span class="si">:</span><span class="s2">&gt;5.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]):</span>
+    <span class="n">print_subreddit_from_component</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+</pre></div>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Component: 0</dt>
+<dd><ul class="first last">
+<li>neoliberal= 0.98</li>
+<li>nfl= 0.10</li>
+<li>politics= 0.08</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Component: 1</dt>
+<dd><ul class="first last">
+<li>teenagers= 0.99</li>
+<li>neoliberal= 0.08</li>
+<li>politics=-0.07</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Component: 2</dt>
+<dd><ul class="first last">
+<li>MurderedByWords= 0.96</li>
+<li>politics=-0.22</li>
+<li>worldnews=-0.09</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Component: 3</dt>
+<dd><ul class="first last">
+<li>politics= 0.84</li>
+<li>worldnews= 0.34</li>
+<li>MurderedByWords= 0.25</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Lastly, I use a logistic regression model on this pca_embedding. Since these values were obtained manually, we only have 120 samples. This dataset is fairly anemic and performs drastically different depending on the training set and the validation set. To get around this, I do cross validation with 10 partitions and calculate the average of the scores.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="k">def</span> <span class="nf">get_Xy</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="c1"># from 1 to 101</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;pro-vaccine&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+
+<span class="k">def</span> <span class="nf">cost</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">get_Xy</span><span class="p">(</span><span class="n">pca_embedding</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">compute_dict</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">validation_score</span> <span class="o">=</span> <span class="n">cost</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;validation_score&quot;</span><span class="p">:</span> <span class="n">validation_score</span><span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">compute_dict</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">101</span><span class="p">)])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<p>Once I plot this we get the following graph. The values change sporadically up and down as the number of features increase. Unfortunately, the score is fairly close to 0.5 with only 2 possible values. This means that our model only performs slightly better than just guessing randomly.</p>
+<img alt="vaccine_preference_prediction.png" src="/images/vaccine_preference_prediction.png" />
+<div class="section" id="limitations">
+<h3>Limitations</h3>
+<ul class="simple">
+<li>People often make throwaway accounts. A majority of users who are anti-vaccine know that they will get a negative response and would not want to tie their main account to these feedback. This means that it'll be difficult to ever know a users true posting habits</li>
+<li>Conversations are subtle and require context and can be time consuming to review an entire thread. It's also not possible if it the other comments are in the sampled data set</li>
+<li>Vaccine preferences can change</li>
+<li>I initially sorted by negativity,This means that part of my data was not from random users and a set of largely negative users (at least the first 50 samples). However, removing this made it take much longer to find anything useful. This meant the dataset for the model was anemic and likely insufficient</li>
+<li>Every subreddit has moderators and anti-vaccine content may get removed or deleted</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Conclusion</h3>
+<p>Our model performed about as well as random guessing. Although it was possible to properly label users on their vaccine preferences, the time and manual nature of the task meant we had an anemic training set. It's likely that our model would perform better with more data but I would still expect to see an unreliable model. The use of multiple accounts makes it very difficult to know any user's true posting habits and therefore any model extracted from reddit unreliable.</p>
+</div>
+</div>
+<div class="section" id="appendix">
+<h2>Appendix</h2>
+<div class="section" id="id2">
+<h3>Popularity</h3>
+<img alt="images/popularity/AmItheAsshole_popularity.png" src="/images/popularity/AmItheAsshole_popularity.png" />
+<img alt="images/popularity/Animemes_popularity.png" src="/images/popularity/Animemes_popularity.png" />
+<img alt="images/popularity/anime_popularity.png" src="/images/popularity/anime_popularity.png" />
+<img alt="images/popularity/apexlegends_popularity.png" src="/images/popularity/apexlegends_popularity.png" />
+<img alt="images/popularity/AskMen_popularity.png" src="/images/popularity/AskMen_popularity.png" />
+<img alt="images/popularity/AskOuija_popularity.png" src="/images/popularity/AskOuija_popularity.png" />
+<img alt="images/popularity/AskReddit_popularity.png" src="/images/popularity/AskReddit_popularity.png" />
+<img alt="images/popularity/aww_popularity.png" src="/images/popularity/aww_popularity.png" />
+<img alt="images/popularity/baseball_popularity.png" src="/images/popularity/baseball_popularity.png" />
+<img alt="images/popularity/CFB_popularity.png" src="/images/popularity/CFB_popularity.png" />
+<img alt="images/popularity/classicwow_popularity.png" src="/images/popularity/classicwow_popularity.png" />
+<img alt="images/popularity/dankmemes_popularity.png" src="/images/popularity/dankmemes_popularity.png" />
+<img alt="images/popularity/DestinyTheGame_popularity.png" src="/images/popularity/DestinyTheGame_popularity.png" />
+<img alt="images/popularity/fantasyfootball_popularity.png" src="/images/popularity/fantasyfootball_popularity.png" />
+<img alt="images/popularity/FIFA_popularity.png" src="/images/popularity/FIFA_popularity.png" />
+<img alt="images/popularity/FortNiteBR_popularity.png" src="/images/popularity/FortNiteBR_popularity.png" />
+<img alt="images/popularity/funny_popularity.png" src="/images/popularity/funny_popularity.png" />
+<img alt="images/popularity/gaming_popularity.png" src="/images/popularity/gaming_popularity.png" />
+<img alt="images/popularity/hockey_popularity.png" src="/images/popularity/hockey_popularity.png" />
+<img alt="images/popularity/leagueoflegends_popularity.png" src="/images/popularity/leagueoflegends_popularity.png" />
+<img alt="images/popularity/Market76_popularity.png" src="/images/popularity/Market76_popularity.png" />
+<img alt="images/popularity/memes_popularity.png" src="/images/popularity/memes_popularity.png" />
+<img alt="images/popularity/mildlyinteresting_popularity.png" src="/images/popularity/mildlyinteresting_popularity.png" />
+<img alt="images/popularity/Minecraft_popularity.png" src="/images/popularity/Minecraft_popularity.png" />
+<img alt="images/popularity/MMA_popularity.png" src="/images/popularity/MMA_popularity.png" />
+<img alt="images/popularity/modernwarfare_popularity.png" src="/images/popularity/modernwarfare_popularity.png" />
+<img alt="images/popularity/movies_popularity.png" src="/images/popularity/movies_popularity.png" />
+<img alt="images/popularity/nba_popularity.png" src="/images/popularity/nba_popularity.png" />
+<img alt="images/popularity/news_popularity.png" src="/images/popularity/news_popularity.png" />
+<img alt="images/popularity/nfl_popularity.png" src="/images/popularity/nfl_popularity.png" />
+<img alt="images/popularity/NintendoSwitch_popularity.png" src="/images/popularity/NintendoSwitch_popularity.png" />
+<img alt="images/popularity/NoStupidQuestions_popularity.png" src="/images/popularity/NoStupidQuestions_popularity.png" />
+<img alt="images/popularity/pcmasterrace_popularity.png" src="/images/popularity/pcmasterrace_popularity.png" />
+<img alt="images/popularity/PewdiepieSubmissions_popularity.png" src="/images/popularity/PewdiepieSubmissions_popularity.png" />
+<img alt="images/popularity/pics_popularity.png" src="/images/popularity/pics_popularity.png" />
+<img alt="images/popularity/politics_popularity.png" src="/images/popularity/politics_popularity.png" />
+<img alt="images/popularity/PublicFreakout_popularity.png" src="/images/popularity/PublicFreakout_popularity.png" />
+<img alt="images/popularity/relationship_advice_popularity.png" src="/images/popularity/relationship_advice_popularity.png" />
+<img alt="images/popularity/RoastMe_popularity.png" src="/images/popularity/RoastMe_popularity.png" />
+<img alt="images/popularity/RocketLeagueExchange_popularity.png" src="/images/popularity/RocketLeagueExchange_popularity.png" />
+<img alt="images/popularity/Showerthoughts_popularity.png" src="/images/popularity/Showerthoughts_popularity.png" />
+<img alt="images/popularity/soccer_popularity.png" src="/images/popularity/soccer_popularity.png" />
+<img alt="images/popularity/SquaredCircle_popularity.png" src="/images/popularity/SquaredCircle_popularity.png" />
+<img alt="images/popularity/teenagers_popularity.png" src="/images/popularity/teenagers_popularity.png" />
+<img alt="images/popularity/todayilearned_popularity.png" src="/images/popularity/todayilearned_popularity.png" />
+<img alt="images/popularity/ukpolitics_popularity.png" src="/images/popularity/ukpolitics_popularity.png" />
+<img alt="images/popularity/unpopularopinion_popularity.png" src="/images/popularity/unpopularopinion_popularity.png" />
+<img alt="images/popularity/videos_popularity.png" src="/images/popularity/videos_popularity.png" />
+<img alt="images/popularity/wallstreetbets_popularity.png" src="/images/popularity/wallstreetbets_popularity.png" />
+<img alt="images/popularity/worldnews_popularity.png" src="/images/popularity/worldnews_popularity.png" />
+</div>
+<div class="section" id="polarity">
+<h3>Polarity</h3>
+<img alt="images/polarity/AmItheAsshole_polarity.png" src="/images/polarity/AmItheAsshole_polarity.png" />
+<img alt="images/polarity/Animemes_polarity.png" src="/images/polarity/Animemes_polarity.png" />
+<img alt="images/polarity/anime_polarity.png" src="/images/polarity/anime_polarity.png" />
+<img alt="images/polarity/apexlegends_polarity.png" src="/images/polarity/apexlegends_polarity.png" />
+<img alt="images/polarity/AskMen_polarity.png" src="/images/polarity/AskMen_polarity.png" />
+<img alt="images/polarity/AskOuija_polarity.png" src="/images/polarity/AskOuija_polarity.png" />
+<img alt="images/polarity/AskReddit_polarity.png" src="/images/polarity/AskReddit_polarity.png" />
+<img alt="images/polarity/aww_polarity.png" src="/images/polarity/aww_polarity.png" />
+<img alt="images/polarity/baseball_polarity.png" src="/images/polarity/baseball_polarity.png" />
+<img alt="images/polarity/CFB_polarity.png" src="/images/polarity/CFB_polarity.png" />
+<img alt="images/polarity/classicwow_polarity.png" src="/images/polarity/classicwow_polarity.png" />
+<img alt="images/polarity/dankmemes_polarity.png" src="/images/polarity/dankmemes_polarity.png" />
+<img alt="images/polarity/DestinyTheGame_polarity.png" src="/images/polarity/DestinyTheGame_polarity.png" />
+<img alt="images/polarity/fantasyfootball_polarity.png" src="/images/polarity/fantasyfootball_polarity.png" />
+<img alt="images/polarity/FIFA_polarity.png" src="/images/polarity/FIFA_polarity.png" />
+<img alt="images/polarity/FortNiteBR_polarity.png" src="/images/polarity/FortNiteBR_polarity.png" />
+<img alt="images/polarity/funny_polarity.png" src="/images/polarity/funny_polarity.png" />
+<img alt="images/polarity/gaming_polarity.png" src="/images/polarity/gaming_polarity.png" />
+<img alt="images/polarity/hockey_polarity.png" src="/images/polarity/hockey_polarity.png" />
+<img alt="images/polarity/leagueoflegends_polarity.png" src="/images/polarity/leagueoflegends_polarity.png" />
+<img alt="images/polarity/Market76_polarity.png" src="/images/polarity/Market76_polarity.png" />
+<img alt="images/polarity/memes_polarity.png" src="/images/polarity/memes_polarity.png" />
+<img alt="images/polarity/mildlyinteresting_polarity.png" src="/images/polarity/mildlyinteresting_polarity.png" />
+<img alt="images/polarity/Minecraft_polarity.png" src="/images/polarity/Minecraft_polarity.png" />
+<img alt="images/polarity/MMA_polarity.png" src="/images/polarity/MMA_polarity.png" />
+<img alt="images/polarity/modernwarfare_polarity.png" src="/images/polarity/modernwarfare_polarity.png" />
+<img alt="images/polarity/movies_polarity.png" src="/images/polarity/movies_polarity.png" />
+<img alt="images/polarity/nba_polarity.png" src="/images/polarity/nba_polarity.png" />
+<img alt="images/polarity/news_polarity.png" src="/images/polarity/news_polarity.png" />
+<img alt="images/polarity/nfl_polarity.png" src="/images/polarity/nfl_polarity.png" />
+<img alt="images/polarity/NintendoSwitch_polarity.png" src="/images/polarity/NintendoSwitch_polarity.png" />
+<img alt="images/polarity/NoStupidQuestions_polarity.png" src="/images/polarity/NoStupidQuestions_polarity.png" />
+<img alt="images/polarity/pcmasterrace_polarity.png" src="/images/polarity/pcmasterrace_polarity.png" />
+<img alt="images/polarity/PewdiepieSubmissions_polarity.png" src="/images/polarity/PewdiepieSubmissions_polarity.png" />
+<img alt="images/polarity/pics_polarity.png" src="/images/polarity/pics_polarity.png" />
+<img alt="images/polarity/politics_polarity.png" src="/images/polarity/politics_polarity.png" />
+<img alt="images/polarity/PublicFreakout_polarity.png" src="/images/polarity/PublicFreakout_polarity.png" />
+<img alt="images/polarity/relationship_advice_polarity.png" src="/images/polarity/relationship_advice_polarity.png" />
+<img alt="images/polarity/RoastMe_polarity.png" src="/images/polarity/RoastMe_polarity.png" />
+<img alt="images/polarity/RocketLeagueExchange_polarity.png" src="/images/polarity/RocketLeagueExchange_polarity.png" />
+<img alt="images/polarity/Showerthoughts_polarity.png" src="/images/polarity/Showerthoughts_polarity.png" />
+<img alt="images/polarity/soccer_polarity.png" src="/images/polarity/soccer_polarity.png" />
+<img alt="images/polarity/SquaredCircle_polarity.png" src="/images/polarity/SquaredCircle_polarity.png" />
+<img alt="images/polarity/teenagers_polarity.png" src="/images/polarity/teenagers_polarity.png" />
+<img alt="images/polarity/todayilearned_polarity.png" src="/images/polarity/todayilearned_polarity.png" />
+<img alt="images/polarity/ukpolitics_polarity.png" src="/images/polarity/ukpolitics_polarity.png" />
+<img alt="images/polarity/unpopularopinion_polarity.png" src="/images/polarity/unpopularopinion_polarity.png" />
+<img alt="images/polarity/videos_polarity.png" src="/images/polarity/videos_polarity.png" />
+<img alt="images/polarity/wallstreetbets_polarity.png" src="/images/polarity/wallstreetbets_polarity.png" />
+<img alt="images/polarity/worldnews_polarity.png" src="/images/polarity/worldnews_polarity.png" />
+</div>
+</div>
+
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+      <li class="list-inline-item"><a href="/authors.html">Authors</a></li>
+    <li class="list-inline-item"><a href="/archives.html">Archives</a></li>
+    <li class="list-inline-item"><a href="/categories.html">Categories</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>
